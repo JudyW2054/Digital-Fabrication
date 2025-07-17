@@ -27,7 +27,78 @@
 
 <h4>Assignment 1: Capactive Sensor<h4>
 
+  <p class = "margin"></p>
+For my sensor I went with an ultrasonic sensor because I plan to use them in my project. After wiring it up I referred to the followign website for code: https://howtomechatronics.com/tutorials/arduino/ultrasonic-sensor-hc-sr04/
+
+<p class = "margin"></p>
+
+<p class = "margin"></p>
+The code's output was in centimeters so I calibrated and measured the distance in comparison to the outputted distance easily.
+<p class = "margin"></p>
+
+ <img src="ss.jpg" width=auto height=500
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
+
+
+ <img src="Dist1.jpg" width=auto height=500
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
+ <p class = "margin"></p>
+ Initially for my code trial I had gone centimeter by centimeter but eventually I realized the range for the sensor reached beyond 300 so I decided to go by increments of 10 instead as shown in the picture below. The leftmost column is in a range of 0-100, the top right column is in a range of 100-200 (plus the amount on the left side) and the bottom is 200-300. Beyond that point the sensor was having trouble registering the distance  without much maneuvering, but it managed to reach up to a maximum of 530 cm -- which in reality was 449 cm. Something I noticed was that it had trouble registering values past 320 and under 5 cm. For calibration, most of the values were under the actual value by .2 cm to .8 cm, so I calibrated it by putting altering the print statement:
+<p class = "margin"></p>
+
+<p class = "margin"></p>
+Serial.print(distance + .5);
+<p class = "margin"></p>
+
+<p class = "margin"></p>
+
+<p class = "margin"></p>
+
+  <img src="Dist2.jpg" width=auto height=500
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
+<p class = "margin"></p>
+Below is my attached code, and I compiled all of my data into a google sheet that shows a fairly linear trend within desmos as shown in the graph.
+<p class = "margin"></p>
+
+<img src="sup.png" width=auto height=500
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
+ <img src="2.jpg" width=auto height=500
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
+ 
+
+
+
+ 
+
+
 <h4>Assignment 2: [Use + Calibrate Another Sensor]</h4>
+
+
+<p class = "margin"></p>
+Above are pictures of my scan, I scanned my airpods case with an app on my phone called polycam. Below are pictures of my fusion sketches.
+
+<p class = "margin"></p>
+
+
+<img src="Sensor.png" width=auto height=500
+ alt="Fixed Size Image" alt="placeholder for you about me image"> 
+
+ <img src="water.jpg" width=auto height=500
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
+
+<img src="waterfill.jpg" width=auto height=500
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
+ <img src="1.jpg" width=auto height=500
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
+  
 
 </div>
 </xmp>
