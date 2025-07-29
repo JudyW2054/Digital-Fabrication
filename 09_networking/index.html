@@ -42,10 +42,28 @@
 <p class = "margin"></p>
 This project started as a simple RGB light controller using an ESP32 connected to the MAKERSPACE Wi-Fi network. The goal was to be able to control the light from any device on the same local network by hosting a LAN web server on the ESP32.
 
-Over time, the project evolved into something much more interactive and chaotic—in the best way. We ended up building a memory-based light game (with a twist of Russian roulette 😅) that let users challenge their brains and their luck. Spoiler: if you win, Bobby gives you a high five.
+
+<p class = "margin"></p>
+
+    <img src="mem1.jpg" width=auto height=400
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
+<p class = "margin"></p>
+
+Eventually we figured out how to make the light display different brightness levels of colors, which is where we got the idea of possibly using a color picker so that the user could pick something on the scale then it would be displayed. Unfortunately we could not get it to work, as explained later on.
+
+<p class = "margin"></p>
 
 
 <p class = "margin"></p>
+Over time, the project evolved into something much more interactive and chaotic—in the best way. We ended up building a memory-based light game (with a twist of Russian roulette) that let users challenge their brains and their luck. Spoiler: if you win, Bobby gives you a high five.
+
+
+<p class = "margin"></p>
+
+
+
+
 
 <h4>Setup & Features</h4>
 
@@ -53,6 +71,12 @@ Over time, the project evolved into something much more interactive and chaotic�
 <p class = "margin"></p>
 1. Initial Setup: RGB LED Control via LAN
 We wired up the RGB LED to the ESP32 using GPIO pins (Red: 32, Green: 33, Blue: 25).
+
+
+<p class = "margin"></p>
+
+
+<p class = "margin"></p>
 
 Hosted a web server on port 80 that rendered clickable links like:
 
@@ -64,15 +88,39 @@ Hosted a web server on port 80 that rendered clickable links like:
  <p class = "margin"></p>
 Each click on a color would increment its intensity by 51, up to a maximum of 255, then reset to 0 on the 6th click.
 
+<p class = "margin"></p>
+
+ <p class = "margin"></p>
 Colors could stack — clicking red and blue would give you purple, for instance.
 <p class = "margin"></p>
+
+   <img src="mem.jpg" width=auto height=400
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
+     <img src="mem3.jpg" width=auto height=400
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
+
+ <p class = "margin"></p>
+We immediately thought of a color picker, where a use could potentially use a color scale and pick a shade they would like displayed and the light would turn that shade. Unfortunately it did not work because even though you could pick colors on the colorpicker, the picker had shades that would go towards black, whilst the light could only get dimmer, not have duller tones. 
+<p class = "margin"></p>
+
+
+    <img src="Colorpick.png" width=auto height=400
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
+ <p class = "margin"></p>
+For example this shade shown above would never be able to be replicated since the darker black thats combined with the blue in the color picker would just be the absence of light in the rgb light (so it would just look like a dimmer version of a still very bright shade).
+<p class = "margin"></p>
+
+
 
 <h4>2. Custom Colors and Troubleshooting</h4>
 
 
  <p class = "margin"></p>
 
-We tried out several combos. One notable moment was when we created a color we called "Christmas" (red + green). Unfortunately, the two colors didn’t mix well visually and looked more like confusion than celebration.
+So going back to just working with incremented and stackable colors, we tried out several combos. One notable moment was when we created a color we called "Christmas" (red + green). Unfortunately, the two colors didn’t mix well visually and looked more like a christmas tree than what we think was supposed to be an orange glow.
 
 <p class = "margin"></p>
 
@@ -89,8 +137,18 @@ The sequence grows by one each round, up to a maximum of 20 levels.
 
 If you repeat the pattern correctly, the game continues. If not, you're out.
 
-If you make it to the end, the ESP32 displays a win message and Bobby gives you a well-deserved high five.
+If you make it to the end, the ESP32 displays a win message and Bobby gives you a well-deserved high five. The image below shows what the user's point of view would be on the webpage (before and after clicking HERE to start memory game).
+<p class = "margin"></p>
 
+   <img src="webpage.png" width=auto height=400
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
+   <img src="Game.png" width=auto height=400
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
+
+
+ <p class = "margin"></p>
 ❗ Unexpected Feature: Russian Roulette Round
 We struggled a lot getting the first round of the memory sequence to display properly. Instead of fixing it with more debugging, we embraced the chaos and made the first round a "Russian roulette" round — one random color flashes, and you just hope you guess it right. 
 
@@ -104,7 +162,17 @@ We struggled a lot getting the first round of the memory sequence to display pro
 
 ESP32 Web Server: Hosted on port 80 using WiFiServer.
 
+
+<p class = "margin"></p>
+
+ <p class = "margin"></p>
+
 Memory Array: We used an array of length 20 to store the color sequence for the game.
+
+
+<p class = "margin"></p>
+
+ <p class = "margin"></p>
 
 LAN Access: Any device connected to the MAKERSPACE Wi-Fi could access the ESP32 through its local IP.
 
@@ -154,8 +222,7 @@ And yes, Bobby really does give high fives if you win.
     <img src="mem.jpg" width=auto height=400
  alt="Fixed Size Image" alt="placeholder for you about me image">
 
-     <img src="mem1.jpg" width=auto height=400
- alt="Fixed Size Image" alt="placeholder for you about me image">
+
 
      <img src="mem2.jpg" width=auto height=400
  alt="Fixed Size Image" alt="placeholder for you about me image">
