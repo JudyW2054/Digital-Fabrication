@@ -33,9 +33,138 @@
 </div>
 <p class="margin">   </p>
 
-<h4>Assignment: [Program something with IOT]</h4>
 
 
+
+<h4>RGB ESP32 LAN Memory Game</h4>
+
+
+<p class = "margin"></p>
+This project started as a simple RGB light controller using an ESP32 connected to the MAKERSPACE Wi-Fi network. The goal was to be able to control the light from any device on the same local network by hosting a LAN web server on the ESP32.
+
+Over time, the project evolved into something much more interactive and chaotic—in the best way. We ended up building a memory-based light game (with a twist of Russian roulette 😅) that let users challenge their brains and their luck. Spoiler: if you win, Bobby gives you a high five.
+
+
+<p class = "margin"></p>
+
+<h4>Setup & Features</h4>
+
+
+<p class = "margin"></p>
+1. Initial Setup: RGB LED Control via LAN
+We wired up the RGB LED to the ESP32 using GPIO pins (Red: 32, Green: 33, Blue: 25).
+
+Hosted a web server on port 80 that rendered clickable links like:
+
+<p class = "margin"></p>
+
+<img src="begin.png" width=auto height=400
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
+ <p class = "margin"></p>
+Each click on a color would increment its intensity by 51, up to a maximum of 255, then reset to 0 on the 6th click.
+
+Colors could stack — clicking red and blue would give you purple, for instance.
+<p class = "margin"></p>
+
+<h4>2. Custom Colors and Troubleshooting</h4>
+
+
+ <p class = "margin"></p>
+
+We tried out several combos. One notable moment was when we created a color we called "Christmas" (red + green). Unfortunately, the two colors didn’t mix well visually and looked more like confusion than celebration.
+
+<p class = "margin"></p>
+
+
+<h4> Memory Game: The Glow-Up (Literally)</h4>
+
+ <p class = "margin"></p>
+
+After getting the RGB controls working, we decided to turn the project into a memory game.
+
+The game flashes a sequence of colors (randomized), and the player must repeat the sequence.
+
+The sequence grows by one each round, up to a maximum of 20 levels.
+
+If you repeat the pattern correctly, the game continues. If not, you're out.
+
+If you make it to the end, the ESP32 displays a win message and Bobby gives you a well-deserved high five.
+
+❗ Unexpected Feature: Russian Roulette Round
+We struggled a lot getting the first round of the memory sequence to display properly. Instead of fixing it with more debugging, we embraced the chaos and made the first round a "Russian roulette" round — one random color flashes, and you just hope you guess it right. 
+
+<p class = "margin"></p>
+
+
+<h4> ⚙️ Tech Breakdown </h4>
+
+
+ <p class = "margin"></p>
+
+ESP32 Web Server: Hosted on port 80 using WiFiServer.
+
+Memory Array: We used an array of length 20 to store the color sequence for the game.
+
+LAN Access: Any device connected to the MAKERSPACE Wi-Fi could access the ESP32 through its local IP.
+
+
+<p class = "margin"></p>
+
+
+<h4> 🧪 Challenges </h4>
+
+
+ <p class = "margin"></p>
+
+ Debugging the memory game logic and round transitions took a lot of trial and error.Color mixing on RGB LEDs was also difficult, especially when different shades of colors look almost identical when projected as light. Another challenge was timing the light displays and reading user inputs through basic HTTP GET requests.
+
+
+<p class = "margin"></p>
+
+<h4> Next Steps (if we had more time -- I will probably try to work these out) </h4>
+
+
+ <p class = "margin"></p>
+
+ Add sound or vibration feedback for wrong answers.
+
+Make the web interface more stylish (buttons instead of hyperlinks).
+
+Add a scoreboard to track highest streaks across users.
+
+Improve timing and pacing of the light displays using millis() instead of delay().
+
+<p class = "margin"></p>
+
+ <p class = "margin"></p>
+
+Overall I learned a lot in the process of making this, and the game turned out to have a lot of quirks after actually making it! 
+And yes, Bobby really does give high fives if you win.
+
+<p class = "margin"></p>
+
+
+
+<pre><code>  
+
+<code><pre>
+
+
+    <img src="mem.jpg" width=auto height=400
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
+     <img src="mem1.jpg" width=auto height=400
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
+     <img src="mem2.jpg" width=auto height=400
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
+     <img src="mem3.jpg" width=auto height=400
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
+     <img src="mem4.jpg" width=auto height=400
+ alt="Fixed Size Image" alt="placeholder for you about me image">
 
 
 </div>
