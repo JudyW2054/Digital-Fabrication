@@ -5,6 +5,21 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="../style.css" rel="stylesheet">
 
+<style>
+pre code {
+  display: block;
+  background-color: #f0f0f0; /* light gray background */
+  padding: 10px;             /* spacing inside the box */
+  border: 1px solid #ccc;    /* subtle border */
+  border-radius: 6px;        /* rounded corners */
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;           /* smaller, compressed font */
+  line-height: 1.2;          /* tighter line spacing */
+  overflow-x: auto;          /* allow horizontal scroll if needed */
+  white-space: pre-wrap;     /* wrap long lines */
+}
+</style>
+
 
 <nav class="navbar navbar-expand-sm navbar-dark" style=" color: #EEE7E8;">
   <div style="align-items: center; justify-content: center;" class="container-fluid">
@@ -27,10 +42,7 @@
 
 
 <p class="margin">   </p>
-<div class="flexrow">
-  <a id="btn" href="wk9.zip" download>Download my files from this week!
-  </a>
-</div>
+
 <p class="margin">   </p>
 
 
@@ -91,19 +103,20 @@ Each click on a color would increment its intensity by 51, up to a maximum of 25
 <p class = "margin"></p>
 
  <p class = "margin"></p>
-Colors could stack — clicking red and blue would give you purple, for instance.
+Colors could stack — clicking red and blue would give you purple, for instance. Below is an example of blue stacked on green which in our website we called cyan.
 <p class = "margin"></p>
-
-   <img src="mem.jpg" width=auto height=400
- alt="Fixed Size Image" alt="placeholder for you about me image">
 
      <img src="mem3.jpg" width=auto height=400
  alt="Fixed Size Image" alt="placeholder for you about me image">
 
 
  <p class = "margin"></p>
-We immediately thought of a color picker, where a use could potentially use a color scale and pick a shade they would like displayed and the light would turn that shade. Unfortunately it did not work because even though you could pick colors on the colorpicker, the picker had shades that would go towards black, whilst the light could only get dimmer, not have duller tones. 
+We immediately thought of a color picker, where a use could potentially use a color scale and pick a shade they would like displayed and the light would turn that shade. Unfortunately it did not work because even though you could pick colors on the colorpicker, the picker had shades that would go towards black, whilst the light could only get dimmer, not have duller tones. Below if you can see the rainbow circle, clicking on it would project the color picker (second image) where you could drag the circle to a shade you wanted.
 <p class = "margin"></p>
+
+   <img src="mem.jpg" width=auto height=400
+ alt="Fixed Size Image" alt="placeholder for you about me image">
+
 
 
     <img src="Colorpick.png" width=auto height=400
@@ -147,6 +160,11 @@ If you make it to the end, the ESP32 displays a win message and Bobby gives you 
  alt="Fixed Size Image" alt="placeholder for you about me image">
 
 
+ <p class = "margin"></p>
+
+For the code we settled on creating a ColorGame class where colors could be displayed (with methods so it would save space) and randomized. We made it so there was a reset method where after you lost the game or clicked in to start the game, an array of numbers 0-7 (each corresponding with a color) would be randomly generated. The game would then display one the first round, two the second, and so on. We would take in the user's input (clicks) and compare it to the array and if it was correct the program would continue. 
+<p class = "margin"></p>
+
 
  <p class = "margin"></p>
 ❗ Unexpected Feature: Russian Roulette Round
@@ -180,7 +198,7 @@ LAN Access: Any device connected to the MAKERSPACE Wi-Fi could access the ESP32 
 <p class = "margin"></p>
 
 
-<h4> 🧪 Challenges </h4>
+<h4> Challenges </h4>
 
 
  <p class = "margin"></p>
@@ -215,23 +233,305 @@ And yes, Bobby really does give high fives if you win.
 
 
 <pre><code>  
+#include <WiFi.h>
 
+#define PIN_RED    32 // GPIO23
+#define PIN_GREEN  33 // GPIO22
+#define PIN_BLUE   25 // GPIO21
+
+WiFiServer server(80);
+
+const char* ssid     = "MAKERSPACE";
+const char* password = "12345678";
+
+const int freq = 5000;
+const int resolution = 8;
+int memory[20];
+
+int rVal = 0;
+int gVal = 0;
+int bVal = 0;
+
+bool gameDuring;
+ 
+class ColorGame {
+  bool gameStart;
+  int round;
+  int turn;
+  int openInterval;
+  int closedInterval;
+
+
+  public:
+  ColorGame(int oI, int cI) {
+    gameDuring = false;
+    round = 0;
+    turn = 0;
+    openInterval = oI;
+    closedInterval = cI;
+  }
+
+
+  //variables go here
+  //I want to go through the array and check each one so that unless the thing doesn't match it kicks it out
+
+  void RedOn() {
+    ledcWrite(PIN_RED,  255);
+    ledcWrite(PIN_GREEN,  0);
+    ledcWrite(PIN_BLUE,  0);
+  }
+
+  void GreenOn() {
+    ledcWrite(PIN_RED,  0);
+    ledcWrite(PIN_GREEN,  255);
+    ledcWrite(PIN_BLUE,  0);
+  }
+
+  void BlueOn() {
+    ledcWrite(PIN_RED,  0);
+    ledcWrite(PIN_GREEN,  0);
+    ledcWrite(PIN_BLUE,  255);
+  }
+
+  void ChristmasOn() {
+    ledcWrite(PIN_RED,  255);
+    ledcWrite(PIN_GREEN,  255);
+    ledcWrite(PIN_BLUE,  0);
+  }
+
+  void CyanOn() {
+    ledcWrite(PIN_RED,  0);
+    ledcWrite(PIN_GREEN,  255);
+    ledcWrite(PIN_BLUE,  255);   
+  }
+
+  void PurpleOn() {
+    ledcWrite(PIN_RED,  255);
+    ledcWrite(PIN_GREEN,  0);
+    ledcWrite(PIN_BLUE,  255);
+  }
+
+  void WhiteOn() {
+    ledcWrite(PIN_RED,  255);
+    ledcWrite(PIN_GREEN,  255);
+    ledcWrite(PIN_BLUE,  255);
+  }
+
+  void blank() {
+    ledcWrite(PIN_RED,  0);
+    ledcWrite(PIN_GREEN,  0);
+    ledcWrite(PIN_BLUE,  0);
+  }
+
+  void gameRestart() {
+    blank();
+    gameStart = true;
+    round = 1;
+    turn = 0;
+    for(int i = 0; i<20; i++)
+    {
+      memory[i] = random(0,7);
+      //this is gonna make all the values ahead of time and set up the round
+    }
+
+    delay(500);
+    displayColor(0);
+    delay(openInterval);
+    blank();
+    delay(closedInterval);
+  }
+
+  void displayColor(int x) {
+    blank();
+    if (x == 0) {RedOn();}
+    else if (x == 1) {GreenOn();}
+    else if (x == 2) {BlueOn();}
+    else if (x == 3) {ChristmasOn();}
+    else if (x == 4) {PurpleOn();}
+    else if (x == 5) {CyanOn();}
+    else if (x == 6) {WhiteOn();}
+  }
+
+  int getRound() {return round;}
+
+  int getTurn() {return turn;}
+
+  void play(int guess, NetworkClient client) {
+    Serial.print(guess);
+    if (memory[turn] == guess) {
+      turn += 1;
+      if (turn == round && round < 3) {       
+        turn = 0;
+        round += 1;
+        showRound();
+      }
+
+      if (round == 3 && turn == round) {
+        client.println("HTTP/1.1 200 OK");
+        client.println("Content-type:text/html");
+        client.println();
+        client.println("You won! (get a high five from Bobby!!!)");
+
+        delay(2500);
+
+        gameDuring = false;
+        round = 0;
+        turn = 0;
+      }
+    }
+
+    else {
+      
+      gameDuring = false;
+      round = 0;
+      turn = 0;
+    }
+  }
+
+  void showRound() {
+    for (int i = 0; i < round; i++) { 
+      Serial.println(memory[i]);
+      displayColor(memory[i]);
+      delay(openInterval);
+      blank();
+      delay(closedInterval);
+    }
+  }
+
+  int* getMemory() {
+    return memory;
+  }
+};
+
+ColorGame newGame(1000, 500);
+
+void setup() {
+  gameDuring = false;
+  pinMode(PIN_RED,   OUTPUT);
+  pinMode(PIN_GREEN, OUTPUT);
+  pinMode(PIN_BLUE,  OUTPUT);
+  ledcAttach(PIN_RED, freq, resolution);
+  ledcAttach(PIN_GREEN, freq, resolution);
+  ledcAttach(PIN_BLUE, freq, resolution);
+
+  Serial.begin(115200);
+
+  Serial.println();
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+  
+  WiFi.begin(ssid, password);
+
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println("");
+  Serial.println("WiFi connected.");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+
+  server.begin();
+}
+
+void loop() {
+  NetworkClient client = server.accept();
+
+  if (client) {                     
+    Serial.println("New Client."); 
+    String currentLine = "";        
+    while (client.connected()) {   
+      if (client.available()) {     
+        char c = client.read();    
+        //Serial.write(c);            
+        if (c == '\n') {           
+          if (currentLine.length() == 0) {
+            client.println("HTTP/1.1 200 OK");
+            client.println("Content-type:text/html");
+            client.println();
+
+            if (!gameDuring) {
+            client.print("Click <a href=\"/R\">here</a> to turn the red on<br>");
+            client.print("Click <a href=\"/G\">here</a> to turn the green on<br>");
+            client.print("Click <a href=\"/B\">here</a> to turn the blue on<br>");
+            client.print("Click <a href=\"/L\">here</a> to turn the LED off<br>");
+            client.print("TO START TESTING YOUR MEMORY OUT, CLICK <a href=\"/GAMEON\">HERE</a> <br>");
+            }
+            else {
+            client.print("");
+            client.print("<a href=\"/0\">Red</a> <br><br>");
+            client.print("<a href=\"/1\">Green</a> <br><br>");
+            client.print("<a href=\"/2\">Blue</a> <br><br>");
+            client.print("<a href=\"/3\">Christmas</a> <br><br>");
+            client.print("<a href=\"/4\">Purple</a> <br><br>");
+            client.print("<a href=\"/5\">Cyan</a> <br><br>");
+            client.print("<a href=\"/6\">White</a> <br><br>");
+            }
+
+            client.println();
+            break;
+          } else { 
+            currentLine = "";
+          }
+        } else if (c != '\r') {  
+          currentLine += c; 
+        }
+       
+        if(gameDuring == true)
+        {
+          //this is just gonna run while gameDduring is true
+          if (newGame.getRound() == 0) {
+            newGame.gameRestart();
+          }
+          //getTurn(position) will get 
+                 
+          if (currentLine.endsWith("GET /0")) {newGame.play(0, client);}
+          if (currentLine.endsWith("GET /1")) {newGame.play(1, client);}
+          if (currentLine.endsWith("GET /2")) {newGame.play(2, client);}
+          if (currentLine.endsWith("GET /3")) {newGame.play(3, client);}
+          if (currentLine.endsWith("GET /4")) {newGame.play(4, client);}
+          if (currentLine.endsWith("GET /5")) {newGame.play(5, client);}
+          if (currentLine.endsWith("GET /6")) {newGame.play(6, client);}
+        }
+
+        else {
+          if (currentLine.endsWith("GET /R")) {
+            rVal += 51;
+            if (rVal > 255) {rVal = 0;}
+          }
+          else if (currentLine.endsWith("GET /G")) {
+            gVal += 51;
+            if (gVal > 255) {gVal = 0;}
+          }
+          else if (currentLine.endsWith("GET /B")) {
+            bVal += 51;
+            if (bVal > 255) {bVal = 0;}
+          }
+          else if (currentLine.endsWith("GET /L")) {
+            rVal = 0;
+            gVal = 0;
+            bVal = 0;
+          }
+          else if (currentLine.endsWith("GET /GAMEON")) 
+          {
+            //start game
+            gameDuring = true;
+          }
+          ledcWrite(PIN_RED,  rVal);
+          ledcWrite(PIN_GREEN,  gVal);
+          ledcWrite(PIN_BLUE,  bVal);
+        }
+
+
+      }
+    }
+    client.stop();
+    Serial.println("Client Disconnected.");
+  }
+}
 <code><pre>
-
-
-    <img src="mem.jpg" width=auto height=400
- alt="Fixed Size Image" alt="placeholder for you about me image">
-
-
-
-     <img src="mem2.jpg" width=auto height=400
- alt="Fixed Size Image" alt="placeholder for you about me image">
-
-     <img src="mem3.jpg" width=auto height=400
- alt="Fixed Size Image" alt="placeholder for you about me image">
-
-     <img src="mem4.jpg" width=auto height=400
- alt="Fixed Size Image" alt="placeholder for you about me image">
 
 
 </div>
