@@ -86,7 +86,7 @@ Mehmet and I then worked on attaching the stepper motors, and afterwards I wired
  alt="Fixed Size Image" alt="placeholder for you about me image"> 
 
  <p class = "margin"></p>
-After I wired it all up, I coded the machine, adding to the code template that was already provided. Eventually proceeding much trial and error with the code, I succeeded in having the machine respond to freehand drawing within the webpage. Our team decided to build a support that would lift the machine up so it would fit over the pan and hot plate. Kamron and Jeongwoo worked on nailing and hot gluing a basic support as shown below
+After I wired it all up, I coded the machine with some help from Mehmet, adding to the code template that was already provided. Eventually proceeding much trial and error with the code, I succeeded in having the machine respond to freehand drawing within the webpage. Our team decided to build a support that would lift the machine up so it would fit over the pan and hot plate. Kamron, Jeongwoo, and Mehmet worked on cutting, nailing, and hot gluing the support as shown below, and in that time I worked on getting the limit switches to be functional so we could home our device (the last picture is of me testing the limit switches).
 <p class = "margin"></p>
 
 
@@ -98,47 +98,106 @@ After I wired it all up, I coded the machine, adding to the code template that w
  <img src="4.png" width=auto height=400
  alt="Fixed Size Image" alt="placeholder for you about me image"> 
 
+ <img src="Support.png" width=auto height=400
+ alt="Fixed Size Image" alt="placeholder for you about me image"> 
+
+
+ <img src="1.png" width=auto height=400
+ alt="Fixed Size Image" alt="placeholder for you about me image"> 
+
+   <img src="Code.jpg" width=auto height=400
+ alt="Fixed Size Image" alt="placeholder for you about me image"> 
+
+  <p class = "margin"></p>
+While supports were being built however, a lot of transportation of the machine had happened and wires would continuously come up. If I could do this project again I would certainly solder some wires into the breadboard. Because of the continuous unplugging and plugging in of wires, someone had accidentally rewired the barrel (for the 12 volts) wrong, which caused the esp32 dev module to short. This happened at the end of lab so I took it with me and switched out the microcontroller for a WROOM instead. After rewiring and recoding to adjust for the WROOM's different pinout, I managed to get the x-axis working but not the y-axis. Apparently, the A4988 for the y-axis was no longer working, so I tried replacing it. In the process of doing so however a grounding wire came up without my notice, and when the code uploaded unfortunately this microcontroller also shorted. Below is a showing of only the X-axis responding to freehand drawings.
+<p class = "margin"></p>
+
 
 <img src="latey.gif" width="300" height=auto alt="Fixed Size Image" alt="placeholder for you about me image">
 
 
 
 
+<p class = "margin"></p>
+After switching out the A4988, and reworking some of the code, the machine could freehand draw again. Later on I also added a link on the webpage for a circle of 4 cm diameter to be drawn as well as a button to home the machine back to the origin (which Kamron, Jeongwoo, and Mehmet adjusted for so the pancakes would be well within the range of the pan's position). Chatgpt did provide support in the code for the links. After much more trial and error, I finally made the machine draw a circle:
+<p class = "margin"></p>
+
+
+
 <iframe width="560" height="315" src="https://www.youtube.com/embed/vmGPu5r_xyk?si=aAd1cUe7dEDlsEGx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
+<p class = "margin"></p>
+Following that success I made sure the pump was functional and attached to the supports and ran a test run for batter consistency and circle shape. The result was this:
+<p class = "margin"></p>
+
+
 <iframe width="560" height="315" src="https://www.youtube.com/embed/z0sAd44QKVI?si=bneWqDfUknt0x2Uv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<p class = "margin"></p>
+The teeth for the stepper motor for the x-axis and y-axis were different, so the horizontal span of the circle would be 1.5 times bigger. To adjust for that I altered the code to:
+<p class = "margin"></p>
+
+<pre><code> 
+ long x = circleCenterX + circleRadiusSteps * cos(angle) * (3.0/2.0);
+</code></pre>
+
+<p class = "margin"></p>
+Resulting in the first successful watery pancake batter circle!!
+<p class = "margin"></p>
 
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/CjwwsrML7bA?si=i7sAFmbVMSQZgQx1" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Ds0PQh1RxHM?si=1VBfBrrEfNbuCvzy" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-<img src="1.png" width=auto height=400
- alt="Fixed Size Image" alt="placeholder for you about me image"> 
+<p class = "margin"></p>
+After that I just played with the consistency of the pancake batter to have a more visible circle.
+<p class = "margin"></p>
 
- <img src="2.png" width=auto height=400
- alt="Fixed Size Image" alt="placeholder for you about me image"> 
- 
+<img src="poury.gif" width="300" height=auto alt="Fixed Size Image" alt="placeholder for you about me image">
 
- <img src="4.png" width=auto height=400
- alt="Fixed Size Image" alt="placeholder for you about me image"> 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/y0MA1HqW1f8?si=7dFy8o3Z7BzUmJlY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+<p class = "margin"></p>
+The pancake machine also works with freehand drawings, though it does not produce consistent lines because of the fast speed of the machine.
+<p class = "margin"></p>
 
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/r-kNZLAqVmw?si=_6C1mZQHuHbfe6wV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
 
- <img src="Scope.jpg" width=auto height=400
- alt="Fixed Size Image" alt="placeholder for you about me image"> 
+<p class = "margin"></p>
+The station and setup:
+<p class = "margin"></p>
 
   <img src="ME.jpg" width=auto height=400
  alt="Fixed Size Image" alt="placeholder for you about me image"> 
 
-   <img src="Code.jpg" width=auto height=400
+  <img src="Scope.jpg" width=auto height=400
  alt="Fixed Size Image" alt="placeholder for you about me image"> 
+
+<img src="swooshy.gif" width="300" height=auto alt="Fixed Size Image" alt="placeholder for you about me image">
 
 <img src="cinima.gif" width="300" height=auto alt="Fixed Size Image" alt="placeholder for you about me image">
 
-<img src="poury.gif" width="300" height=auto alt="Fixed Size Image" alt="placeholder for you about me image">
 
-<img src="swooshy.gif" width="300" height=auto alt="Fixed Size Image" alt="placeholder for you about me image">
+<img src="Freehand.jpg" width="300" height=auto alt="Fixed Size Image" alt="placeholder for you about me image">
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/Ds0PQh1RxHM?si=1VBfBrrEfNbuCvzy" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <p class = "margin"></p>
 
@@ -389,6 +448,10 @@ function onMessage(event) {
 </script>
 </html>
 )rawliteral";
+
+/*
+Unfortunately the code is not showing up since Sublime does just register this section of html as something to display, so above was what our webpage looked like.
+*/
 
 
 // Initialize WiFi
@@ -684,8 +747,7 @@ void drawCircleFromCenter(float radius_cm, int segments) {
 }
 
 
-<code><pre>
-
+</code></pre>
 </div>
 </xmp>
 </body>
