@@ -119,7 +119,7 @@ While supports were being built however, a lot of transportation of the machine 
 
 
 <p class = "margin"></p>
-After switching out the A4988, and reworking some of the code, the machine could freehand draw again. Later on I also added a link on the webpage for a circle of 4 cm diameter to be drawn as well as a button to home the machine back to the origin (which Kamron, Jeongwoo, and Mehmet adjusted for so the pancakes would be well within the range of the pan's position). Chatgpt did provide support in the code for the links. After much more trial and error, I finally made the machine draw a circle:
+After switching out the A4988, and reworking some of the code, the machine could freehand draw again. Later on I also added a link on the webpage for a circle of 4 cm diameter to be drawn using math.h as well as a button to home the machine back to the origin (which Kamron, Jeongwoo, and Mehmet adjusted for so the pancakes would be well within the range of the pan's position). After much more trial and error, the machine could draw a circle:
 <p class = "margin"></p>
 
 
@@ -164,6 +164,8 @@ The pancake machine also works with freehand drawings, though it does not produc
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/r-kNZLAqVmw?si=_6C1mZQHuHbfe6wV" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> 
 
+<img src="Freehand.jpeg" width="300" height=auto alt="Fixed Size Image" alt="placeholder for you about me image">
+
 <p class = "margin"></p>
 The station and setup:
 <p class = "margin"></p>
@@ -171,38 +173,19 @@ The station and setup:
   <img src="ME.jpg" width=auto height=400
  alt="Fixed Size Image" alt="placeholder for you about me image"> 
 
-  <img src="Scope.jpg" width=auto height=400
- alt="Fixed Size Image" alt="placeholder for you about me image"> 
 
 <img src="swooshy.gif" width="300" height=auto alt="Fixed Size Image" alt="placeholder for you about me image">
 
 <img src="cinima.gif" width="300" height=auto alt="Fixed Size Image" alt="placeholder for you about me image">
 
 
-<img src="Freehand.jpg" width="300" height=auto alt="Fixed Size Image" alt="placeholder for you about me image">
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Ds0PQh1RxHM?si=1VBfBrrEfNbuCvzy" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+<p class = "margin"></p>
+Below is all my code:
 <p class = "margin"></p>
 
 
-<p class = "margin"></p>
+
+
 
 <pre><code> 
 
@@ -748,6 +731,17 @@ void drawCircleFromCenter(float radius_cm, int segments) {
 
 
 </code></pre>
+
+
+<h4>Reflection</h4>
+
+<p class = "margin"></p>
+Overall building the machine was a good experience that taught a lot. As a group some issues we could improve on would be communicating better, having a better workload division between the members, and time management as well. On the whole however this experience was a lot of fun and I look forward to doing something like this again!
+<p class = "margin"></p>
+
+
+
+
 </div>
 </xmp>
 </body>
